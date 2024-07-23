@@ -4,35 +4,56 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>formulario cadastro cliente</title>
 </head>
 <body>
-    <?php
+    <form action="cadastroclienteexe.php" method="post">
+        <fieldset>
+            <legend>Cadastro Cliente</legend>
+            <div>
+                <label for="nome">Nome</label>
+                <input type="text" name="nome" id="nome">
+            </div>
+            <br>
+            <div>
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email">
+            </div>
+            <br>
+            <div>
+                <label for="password">Senha</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <br>
+            <div>
+                <label for="ativo">Ativo</label>
+                <input type="checkbox" id="opcaosim" name="sim" value="sim">
+                <label for="opcaosim">Sim</label>
 
-        include('includes/conexao.php');
+                <input type="checkbox" id="opcaonao" name="nao" value="nao">
+                <label for="opcaonao">Não</label>
+            </div>
+            <div>
+                <label for="cidade">Cidade</label>
+                <select name="cidade" id="cidade">
+                    <?php
 
-        $nome = $_POST['nome'];
-        $email = $_POST['email'];
-        $senha = $_POST['senha'];
+                        include('includes/conexao.php');
+                        $sql = "SELECT * FROM cidade";
+                        $result = mysqli_query($con, $sql);
 
-        echo "<h1>Dados do cliente<h1>";
-        echo "Nome: $nome<br>";
-        echo "Email: $email<br>";
-        echo "Senha: $senha<br>";
+                        while($row = mysqli_fetch_array($result)) {
+                            echo "<option value='".$row['id']."'>".$row['nome']."/".$row['estado']."</option>";
+                        }
 
-        $sql = "INSERT INTO cliente (nome, email, senha)";
-        $sql .= "VALUES ('".$nome."','".$email."','".$senha."')";
-        echo $sql;
-
-        //executa comando no banco de dados
-        $result = mysqli_query($con, $sql);
-        if($result) {
-            echo "<h2>Dados cadastrados com sucesso<h2>";
-        } else {
-            echo "<h2>Erro ao cadastrar<h2>";
-            echo mysqli_error($con);
-        }
-
-    ?>
+                    ?>
+                </select>
+            </div>
+            <br>
+            <div>
+                <button type="submit">Cadastrar</button>
+            </div>
+        </fieldset>
+    </form>
 </body>
 </html>
